@@ -1,0 +1,20 @@
+.MarinaTable {
+
+}
+
+.ui.modal.transition.visible.active.Modal.BoatModal { //needed to override default style sheet from semantic
+  .content {
+    .BoatModalContent {
+      display: flex !important;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .BoatActions {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      ;
+      }
+    }
+  }
+}
