@@ -30,20 +30,20 @@ const MarinaTableHeaders = () => {
             </TableRow>
         </TableHeader>
     )
-}
+};
 
-const BoatActions = (wrappedBoatData) => {
-    const handleDelete = () => {
-
-    };
-
-    const handleSlipChange = () => {
+const BoatActions = ({openSlipItems, boatData, boatId, handleBoatDelete, handleSlipChange}) => {
+    const handleBoatDeleteWrapper = () => {
 
     };
 
-    const {boatData} = wrappedBoatData;
+    const handleSlipChangeWrapper = () => {
+
+    };
+
+
     const [open, setOpen] = useState(false);
-    const [newSlipValue, setNewSlipValue] = useState(wrappedBoatData.slip_number);
+    const [newSlipValue, setNewSlipValue] = useState(boatData.slip_number);
     return (
         <div>
             <Modal
@@ -103,7 +103,7 @@ const BoatActions = (wrappedBoatData) => {
     )
 };
 
-function MarinaTable({tableData = boatSlips}){
+/*function MarinaTable({tableData = boatSlips, boatData, handleBoatDelete, handleSlipChange}){
     return (
         <Table celled striped className="MarinaTable">
             <MarinaTableHeaders />
@@ -125,6 +125,38 @@ function MarinaTable({tableData = boatSlips}){
                             </TableCell>
                             <TableCell>
                                 <BoatActions boatData={entry}/>
+                            </TableCell>
+                        </TableRow>
+                    )
+                })}
+            </TableBody>
+        </Table>
+    )
+}*/
+
+function MarinaTable({boatSlips, boatData, handleBoatDelete, handleSlipChange}){
+    return (
+        <Table celled striped className="MarinaTable">
+            <MarinaTableHeaders />
+            <TableBody>
+                {boatSlips && boatSlips.map((entry, index) => {
+                    const boat = boatData[entry.boat_id];
+                    return (
+                        <TableRow key={index}>
+                            <TableCell>
+                                {entry.id}
+                            </TableCell>
+                            <TableCell>
+                                {boat ? boat.name : "NO BOAT FOUND"}
+                            </TableCell>
+                            <TableCell>
+                                {boat ? boat.color : "NO BOAT FOUND"}
+                            </TableCell>
+                            <TableCell>
+                                {boat ? boat.length : "NO BOAT FOUND"}
+                            </TableCell>
+                            <TableCell>
+                                {boat ? (<BoatActions handleBoatDelete={handleBoatDelete} handleSlipChange={handleSlipChange} boatId={boat.id} boatData={entry}/>) : "NO BOAT FOUND"}
                             </TableCell>
                         </TableRow>
                     )

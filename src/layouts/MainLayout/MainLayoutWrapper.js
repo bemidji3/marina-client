@@ -2,25 +2,52 @@ import React from "react";
 import MainLayout from "./MainLayout";
 import useForm from "../../lib/hooks/useForm";
 import {initialValues} from "./config";
+import useBoats from "../../lib/hooks/useBoats";
+import {pickBy} from "lodash";
 
 function MainLayoutWrapper(){
 
-    const onSubmit = (data) => {
-        console.log("data ", data);
-        alert("pressed submit!");
+    const {
+        createBoat,
+        deleteBoatById,
+        boatInfo,
+        slipInfo,
+    } = useBoats();
+
+    const onSubmitNewBoat = (data) => {
+        createBoat(data);
+    };
+
+    const onDeleteBoat = (boatId) => {
+        deleteBoatById(boatId);
     };
 
     const {
         formData,
         handleChange,
         simpleSubmit
-    } = useForm(initialValues, onSubmit);
+    } = useForm(initialValues, onSubmitNewBoat);
+
+    const validSlips = pickBy(slipInfo, (key) => {
+        return slipInfo[key].occupied === false;
+    });
+
+    // const openSlipDropdownItems = validSlips.map(slip => {
+    //     return {
+    //         text: `Slip Number ${slip.id}`,
+    //         value: slip.id,
+    //     }
+    // });
 
     return (
         <MainLayout
             formData={formData}
             handleChange={handleChange}
-            onSubmit={simpleSubmit}
+            onSubmitNewBoat={simpleSubmit}
+            onDeleteBoat={onDeleteBoat}
+            slipInformation={slipInfo}
+            openSlips={[]}
+            boatInformation={boatInfo}
         />
     )
 }

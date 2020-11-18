@@ -10,7 +10,7 @@ import Button from "../Button";
 import Dropdown from "../Dropdown";
 import "./BoatActionCard.scss";
 
-function BoatActionCard({formData, handleChange, onSubmit, openSlips}) {
+function BoatActionCard({formData, handleChange, onSubmit, openSlipDropdownItems}) {
     const { color, name, length, slip_number } = formData;
 
     return (
@@ -49,15 +49,20 @@ function BoatActionCard({formData, handleChange, onSubmit, openSlips}) {
                                 }}
                             />
                         </FormField>
-{/*                        <FormField>
-                            <Dropdown
+                       <FormField>
+                            {/*<Dropdown
                                 label="Slip #"
                                 value={slip_number}
-                                items={openSlips}
+                                items={openSlipDropdownItems}
                                 onChange={(_, { value }) => handleChange("slip_number", value)}
                                 selection
+                            />*/}
+                            <Input
+                                label="Slip #"
+                                value={slip_number}
+                                onChange={(_, { value }) => handleChange("slip_number", value)}
                             />
-                        </FormField>*/}
+                        </FormField>
                         <Button
                             onClick={() => {
                                 onSubmit(formData)

@@ -11,7 +11,6 @@ const useForm = (initialValues, submit) => {
 
     const handleChange = (name, value) => {
         if (isUndefined(value)) {
-            // eslint-disable-next-line no-console
             console.error(
                 `This form is not working properly: value for ${name} is undefined`
             );
