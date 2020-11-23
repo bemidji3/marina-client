@@ -8,6 +8,7 @@ const useBoats = () => {
     const slipInfo = useSelector(state => state.slipData);
 
     const createBoat = (boatData) => {
+        console.log("boatData ", boatData);
         return dispatch(createNewBoat(boatData));
     };
 
@@ -21,7 +22,7 @@ const useBoats = () => {
 
     const getAllBoats = () => {
         return dispatch(fetchAllBoats());
-    }
+    };
 
     return {
         createBoat,

@@ -3,6 +3,6 @@ export const initialValues = {
         name: "",
         length: "",
         color: "",
-        slip_number: "",
+        slip_id: "",
     }
 };

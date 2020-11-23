@@ -11,7 +11,7 @@ import Dropdown from "../Dropdown";
 import "./BoatActionCard.scss";
 
 function BoatActionCard({formData, handleChange, onSubmit, openSlipDropdownItems}) {
-    const { color, name, length, slip_number } = formData;
+    const { color, name, length, slip_id } = formData;
 
     return (
         <div className="BoatActionCard">
@@ -59,17 +59,21 @@ function BoatActionCard({formData, handleChange, onSubmit, openSlipDropdownItems
                             />*/}
                             <Input
                                 label="Slip #"
-                                value={slip_number}
-                                onChange={(_, { value }) => handleChange("slip_number", value)}
+                                value={slip_id}
+                                onChange={(_, { value }) => handleChange("slip_id", value)}
                             />
                         </FormField>
-                        <Button
-                            onClick={() => {
-                                onSubmit(formData)
-                            }}
-                        >
-                            Create new boat!
-                        </Button>
+                        <div className="BoatSubmitButton">
+                            <Button
+                                content="Create new boat!"
+                                positive
+                                labelPosition='left'
+                                icon='checkmark'
+                                onClick={() => {
+                                    onSubmit(formData)
+                                }}
+                            />
+                        </div>
                     </CardContent>
                 </Card>
             </Form>

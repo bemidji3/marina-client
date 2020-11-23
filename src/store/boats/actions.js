@@ -51,7 +51,7 @@ export const fetchAllBoatsSuccess = (responseData) => {
 
 
 export const createNewBoat = (boatData) => dispatch => {
-    return post("http://localhost:3000/api/v1/boats", boatData).then(response => {
+    return post(`http://localhost:3000/api/v1/marinas/1/slips/${boatData.slip_id}/boats`, boatData).then(response => {
         dispatch(createBoatSuccess(response))
     }).catch(error => {
         dispatch(createBoatFailure(error))
@@ -75,8 +75,9 @@ export const updateBoatSlip = (boatId, slipId, payload) => dispatch => {
 };
 
 export const fetchAllBoats = () => dispatch => {
-    const url = "http://localhost3000/api/v1/boats";
+    const url = "http://127.0.0.1:3000/api/v1/marinas/1/slips";
     return get(url).then(response => {
+        console.log("response in fetch all boats ", response);
         dispatch(fetchAllBoatsSuccess(response))
     }).catch(error => {
         console.error("error on initial fetch: ", error)

@@ -8,10 +8,11 @@ const initialState = {
 export default function boatsReducer(state = initialState, action){
     switch(action.type) {
         case "RECEIVE_INITIAL_COLLECTION":
+            console.log("data ", action);
             return {
                 ...state,
-                slipData: {...state.slipData, ...action.data.slipData},
-                boatData: {...state.boatData, ...action.data.boatData},
+                slipData: {...state.slipData, ...action.data},
+                // boatData: {...state.boatData, ...action.data.boatData},
             };
         case "CREATE_BOAT_SUCCESS":
             return {
@@ -28,7 +29,7 @@ export default function boatsReducer(state = initialState, action){
         case "CREATE_BOAT_FAILURE":
             return {
                 ...state,
-                errors: [...state.errors, action.error],
+                errors: [...state.errors, {message: action.error.message} ],
             };
         case "CHANGE_SLIP_SUCCESS":
             return {
@@ -49,7 +50,7 @@ export default function boatsReducer(state = initialState, action){
         case "CHANGE_SLIP_FAILURE":
             return {
                 ...state,
-                errors: [...state.errors, action.error]
+                errors: [...state.errors, {message: action.error.message} ]
             };
         case "DELETE_BOAT_SUCCESS":
             return {
@@ -66,7 +67,7 @@ export default function boatsReducer(state = initialState, action){
         case "DELETE_BOAT_FAILURE":
             return {
                 ...state,
-                errors: [...state.errors, action.error],
+                errors: [...state.errors, {message: action.error.message} ],
             };
         default:
             return state

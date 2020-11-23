@@ -16,6 +16,7 @@ function MainLayoutWrapper(){
 
     const onSubmitNewBoat = (data) => {
         createBoat(data);
+        resetForm();
     };
 
     const onDeleteBoat = (boatId) => {
@@ -25,11 +26,12 @@ function MainLayoutWrapper(){
     const {
         formData,
         handleChange,
-        simpleSubmit
+        simpleSubmit,
+        resetForm,
     } = useForm(initialValues, onSubmitNewBoat);
 
     const validSlips = pickBy(slipInfo, (key) => {
-        return slipInfo[key].occupied === false;
+        return !slipInfo[key].occupied;
     });
 
     // const openSlipDropdownItems = validSlips.map(slip => {

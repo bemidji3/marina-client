@@ -7,6 +7,7 @@ import Header from "../../components/Header";
 function MainLayout({formData, handleChange, onSubmitNewBoat, onDeleteBoat, slipInformation, boatInformation, openSlips}){
     return (
         <div className="MainLayout">
+            <Header as="h1">Welcome to Jack's Marina Manager</Header>
             <BoatActionCard
                 formData={formData}
                 handleChange={handleChange}
