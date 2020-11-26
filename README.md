@@ -40,4 +40,4 @@ Instead, it will copy all the configuration files and the transitive dependencie
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## ADDITIONAL NOTES
-Due to the time constraints, I was unable to totally finish the product.  Still left to do for me is: (1) bugfixing for loading states/spinners for when we are fetching data (2) error states for when there is an occupied slip that you try to move a boat to
+Due to the time constraints, I was unable to totally finish the product.  Still left to do for me is: (1) bugfixing for loading states/spinners for when we are fetching data (2) error states for when there is an occupied slip that you try to move a boat to (3) functionality for changing slip # on the backend and front end (4) backend JSON response for deleting a boat so we can update the front end to display that
