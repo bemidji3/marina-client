@@ -1,11 +1,20 @@
 import {useDispatch, useSelector} from "react-redux";
-import {createNewBoat, deleteBoat, fetchAllBoats} from "../../store/boats/actions";
+import {createNewBoat, deleteBoat, initialFetch} from "../../store/boats/actions";
 
 const useBoats = () => {
     const dispatch = useDispatch();
 
-    const boatInfo = useSelector(state => state.boatData);
-    const slipInfo = useSelector(state => state.slipData);
+    const boatInfo = useSelector(state => {
+        return (
+            state.boatsReducer.boatData
+        )
+    } );
+    const slipInfo = useSelector(state => {
+        return (
+            state.boatsReducer.slipData
+        )
+    } );
+
 
     const createBoat = (boatData) => {
         console.log("boatData ", boatData);
@@ -16,12 +25,12 @@ const useBoats = () => {
         return dispatch(deleteBoat(boatId))
     };
 
-    const changeBoatSlip = (boatId, newSlip) => {
+    const changeBoatSlip = (boatId, slipId) => {
 
     };
 
     const getAllBoats = () => {
-        return dispatch(fetchAllBoats());
+        return dispatch(initialFetch());
     };
 
     return {

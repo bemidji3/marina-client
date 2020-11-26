@@ -7,6 +7,18 @@ export const createBoatSuccess = (responseData) => {
     }
 };
 
+export const collectionFetchStart = () => {
+    return {
+        type: "COLLECTION_FETCH_START"
+    }
+};
+
+export const collectionFetchEnd = () => {
+    return {
+        type: "COLLECTION_FETCH_END"
+    }
+};
+
 export const createBoatFailure = (error) => {
     return {
         type: "CREATE_BOAT_FAILURE",
@@ -42,24 +54,39 @@ export const deleteBoatFailure = (error) => {
     }
 };
 
-export const fetchAllBoatsSuccess = (responseData) => {
+export const fetchAllSlipsSuccess = (responseData) => {
     return {
-        type: "RECEIVE_INITIAL_COLLECTION",
+        type: "RECEIVE_INITIAL_SLIPS_COLLECTION",
+        data: responseData,
+    }
+};
+
+export const fetchAllBoatSuccess = (responseData) => {
+    return {
+        type: "RECEIVE_INITIAL_BOATS_COLLECTION",
         data: responseData,
     }
 };
 
 
 export const createNewBoat = (boatData) => dispatch => {
-    return post(`http://localhost:3000/api/v1/marinas/1/slips/${boatData.slip_id}/boats`, boatData).then(response => {
-        dispatch(createBoatSuccess(response))
+    const wrappedBoatData = {
+        boat: {
+            ...boatData,
+        }
+    };
+    dispatch(collectionFetchStart());
+    return post(`http://localhost:3000/api/v1/marinas/1/slips/${boatData.slip_id}/boats`, wrappedBoatData).then(response => {
+        dispatch(createBoatSuccess(response));
+        dispatch(collectionFetchEnd());
     }).catch(error => {
-        dispatch(createBoatFailure(error))
+        dispatch(createBoatFailure(error));
+        dispatch(collectionFetchEnd());
     })
 };
 
 export const deleteBoat = (boatId) => dispatch => {
-    const url = `http://localhost:3000/api/v1/boats/${boatId}`;
+    const url = `http://localhost:3000/api/v1/marinas/1/slips/1/boats/${boatId}`;
     return deleteRequest(url).then(response =>{
         dispatch(deleteBoatSuccess(response))
     }).catch(error => {
@@ -74,12 +101,21 @@ export const updateBoatSlip = (boatId, slipId, payload) => dispatch => {
 
 };
 
-export const fetchAllBoats = () => dispatch => {
-    const url = "http://127.0.0.1:3000/api/v1/marinas/1/slips";
-    return get(url).then(response => {
-        console.log("response in fetch all boats ", response);
-        dispatch(fetchAllBoatsSuccess(response))
+export const initialFetch = () => dispatch => {
+    const slipUrl = "http://127.0.0.1:3000/api/v1/marinas/1/slips";
+    const boatUrl = "http://127.0.0.1:3000/api/v1/marinas/1/boats";
+    dispatch(collectionFetchStart());
+    return get(slipUrl).then(response => {
+        dispatch(fetchAllSlipsSuccess(response));
+        return get(boatUrl).then(response => {
+            dispatch(fetchAllBoatSuccess(response));
+            dispatch(collectionFetchEnd());
+        }).catch(error => {
+            console.error("error on initial boat fetch: ", error);
+            dispatch(collectionFetchEnd());
+        })
     }).catch(error => {
-        console.error("error on initial fetch: ", error)
+        console.error("error on initial slip fetch: ", error);
+        dispatch(collectionFetchEnd());
     })
 };

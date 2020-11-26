@@ -40,4 +40,4 @@ Instead, it will copy all the configuration files and the transitive dependencie
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## ADDITIONAL NOTES
-Due to the time constraints, I was unable to totally finish the product.  Still left to do for me is: (1) loading states/spinners for when we are fetching data because currently the component is mounting before the data is loaded entirely (2) get the buttons to actually work and create/change IDs for boats (3) populate the table correctly and have it stay up to date when an action is taken (4) error states for when a user tries to move a boat to an occupied slip or tries to create a new boat and put it in an occupied slip 
+Due to the time constraints, I was unable to totally finish the product.  Still left to do for me is: (1) bugfixing for loading states/spinners for when we are fetching data (2) error states for when there is an occupied slip that you try to move a boat to

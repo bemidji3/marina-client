@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Table from "../Table/Table";
 import TableRow from "../Table/TableRow";
 import TableCell from "../Table/TableCell";
@@ -11,6 +11,7 @@ import Dropdown from "../Dropdown";
 import {Modal as SemanticModal} from "semantic-ui-react";
 import "semantic-ui-css/components/button.css";
 import { boatSlips, COLUMN_HEADERS } from "./config"
+import {createDropdownItems} from "../BoatActionCard/config";
 import "./MarinaTable.scss";
 
 const MarinaTableHeaders = () => {
@@ -33,17 +34,24 @@ const MarinaTableHeaders = () => {
 };
 
 const BoatActions = ({openSlipItems, boatData, boatId, handleBoatDelete, handleSlipChange}) => {
-    const handleBoatDeleteWrapper = () => {
-
-    };
-
-    const handleSlipChangeWrapper = () => {
-
-    };
-
-
     const [open, setOpen] = useState(false);
-    const [newSlipValue, setNewSlipValue] = useState(boatData.slip_number);
+    const [newSlipValue, setNewSlipValue] = useState(boatData.slip_id);
+    const slipDropdownItems = createDropdownItems(openSlipItems);
+
+    const handleBoatDeleteWrapper = () => {
+        handleBoatDelete(boatId);
+        setOpen(false);
+    };
+
+    const handleSlipChangeWrapper = (boatId, slipId) => {
+        handleSlipChange(boatId, slipId);
+        setOpen(false);
+    };
+
+    useEffect(() => {
+        console.log("new slip value ", newSlipValue);
+    }, [newSlipValue]);
+
     return (
         <div>
             <Modal
@@ -69,8 +77,8 @@ const BoatActions = ({openSlipItems, boatData, boatId, handleBoatDelete, handleS
                             <Dropdown
                                 label="Change slip number"
                                 value={newSlipValue}
-                                items={[]}
-                                onChange={(_, {value}) => setNewSlipValue(value)}
+                                items={slipDropdownItems}
+                                onChange={(_, {value}) => setNewSlipValue(value.id)}
                             />
                             <Button
                                 content="Confirm slip change"
@@ -83,7 +91,7 @@ const BoatActions = ({openSlipItems, boatData, boatId, handleBoatDelete, handleS
                                 content="Delete this Boat"
                                 labelPosition='right'
                                 icon='delete'
-                                onClick={() => setOpen(false)}
+                                onClick={handleBoatDeleteWrapper}
                                 negative
                             />
                         </div>
@@ -103,48 +111,18 @@ const BoatActions = ({openSlipItems, boatData, boatId, handleBoatDelete, handleS
     )
 };
 
-/*function MarinaTable({tableData = boatSlips, boatData, handleBoatDelete, handleSlipChange}){
+function MarinaTable({boatSlips = boatSlips, allSlips, handleBoatDelete, handleSlipChange}){
     return (
         <Table celled striped className="MarinaTable">
             <MarinaTableHeaders />
             <TableBody>
-                {tableData && tableData.map((entry, index) => {
+                {boatSlips && Object.keys(boatSlips).map((key, index)  => {
+                    const slip = boatSlips[key];
+                    const boat = slip.boat;
                     return (
                         <TableRow key={index}>
                             <TableCell>
-                                {entry.slip_number}
-                            </TableCell>
-                            <TableCell>
-                                {entry.boat_name}
-                            </TableCell>
-                            <TableCell>
-                                {entry.boat_color}
-                            </TableCell>
-                            <TableCell>
-                                {entry.boat_length}
-                            </TableCell>
-                            <TableCell>
-                                <BoatActions boatData={entry}/>
-                            </TableCell>
-                        </TableRow>
-                    )
-                })}
-            </TableBody>
-        </Table>
-    )
-}*/
-
-function MarinaTable({boatSlips, boatData, handleBoatDelete, handleSlipChange}){
-    return (
-        <Table celled striped className="MarinaTable">
-            <MarinaTableHeaders />
-            <TableBody>
-                {boatSlips && boatSlips.map((entry, index) => {
-                    const boat = boatData[entry.boat_id];
-                    return (
-                        <TableRow key={index}>
-                            <TableCell>
-                                {entry.id}
+                                <p>{slip.id}</p>
                             </TableCell>
                             <TableCell>
                                 {boat ? boat.name : "NO BOAT FOUND"}
@@ -156,7 +134,7 @@ function MarinaTable({boatSlips, boatData, handleBoatDelete, handleSlipChange}){
                                 {boat ? boat.length : "NO BOAT FOUND"}
                             </TableCell>
                             <TableCell>
-                                {boat ? (<BoatActions handleBoatDelete={handleBoatDelete} handleSlipChange={handleSlipChange} boatId={boat.id} boatData={entry}/>) : "NO BOAT FOUND"}
+                                {boat ? (<BoatActions allSlips={allSlips} openSlipItems={boatSlips} handleBoatDelete={handleBoatDelete} handleSlipChange={handleSlipChange} boatId={boat.id} boatData={boat}/>) : "NO BOAT FOUND"}
                             </TableCell>
                         </TableRow>
                     )

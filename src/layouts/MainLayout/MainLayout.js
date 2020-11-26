@@ -12,14 +12,15 @@ function MainLayout({formData, handleChange, onSubmitNewBoat, onDeleteBoat, slip
                 formData={formData}
                 handleChange={handleChange}
                 onSubmit={onSubmitNewBoat}
-                openSlipDropdownItems={openSlips}
+                openSlips={openSlips}
                 slipInformation={slipInformation}
             />
             <Header as="h1">View your Marina Data Below</Header>
             <MarinaTable
-                onDeleteBoat={onDeleteBoat}
-                openSlipDropdownItems={openSlips}
+                handleBoatDelete={onDeleteBoat}
                 boatInformation={boatInformation}
+                boatSlips={openSlips}
+                allSlips={slipInformation}
             />
         </div>
     )

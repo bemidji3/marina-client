@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Card from "../Card/Card";
 import CardHeader from "../Card/CardHeader";
 import CardContent from "../Card/CardContent";
@@ -10,8 +10,15 @@ import Button from "../Button";
 import Dropdown from "../Dropdown";
 import "./BoatActionCard.scss";
 
-function BoatActionCard({formData, handleChange, onSubmit, openSlipDropdownItems}) {
+import {createDropdownItems} from "./config";
+
+function BoatActionCard({formData, handleChange, onSubmit, openSlips}) {
     const { color, name, length, slip_id } = formData;
+    const wrappedDropdownItems = createDropdownItems(openSlips);
+
+    useEffect(() => {
+        console.log("FORMDATA >>> ", formData);
+    }, [formData]);
 
     return (
         <div className="BoatActionCard">
@@ -50,17 +57,12 @@ function BoatActionCard({formData, handleChange, onSubmit, openSlipDropdownItems
                             />
                         </FormField>
                        <FormField>
-                            {/*<Dropdown
-                                label="Slip #"
-                                value={slip_number}
-                                items={openSlipDropdownItems}
-                                onChange={(_, { value }) => handleChange("slip_number", value)}
-                                selection
-                            />*/}
-                            <Input
-                                label="Slip #"
+                            <Dropdown
+                                label="Slip Number"
                                 value={slip_id}
+                                items={wrappedDropdownItems}
                                 onChange={(_, { value }) => handleChange("slip_id", value)}
+                                selection
                             />
                         </FormField>
                         <div className="BoatSubmitButton">

@@ -3,7 +3,7 @@ import MainLayout from "./MainLayout";
 import useForm from "../../lib/hooks/useForm";
 import {initialValues} from "./config";
 import useBoats from "../../lib/hooks/useBoats";
-import {pickBy} from "lodash";
+import {pickBy, isEmpty} from "lodash";
 
 function MainLayoutWrapper(){
 
@@ -30,16 +30,10 @@ function MainLayoutWrapper(){
         resetForm,
     } = useForm(initialValues, onSubmitNewBoat);
 
-    const validSlips = pickBy(slipInfo, (key) => {
-        return !slipInfo[key].occupied;
+    const validSlips = !isEmpty(slipInfo) && pickBy(slipInfo, (key) => {
+        return !key.occupied
     });
 
-    // const openSlipDropdownItems = validSlips.map(slip => {
-    //     return {
-    //         text: `Slip Number ${slip.id}`,
-    //         value: slip.id,
-    //     }
-    // });
 
     return (
         <MainLayout
@@ -48,7 +42,7 @@ function MainLayoutWrapper(){
             onSubmitNewBoat={simpleSubmit}
             onDeleteBoat={onDeleteBoat}
             slipInformation={slipInfo}
-            openSlips={[]}
+            openSlips={validSlips}
             boatInformation={boatInfo}
         />
     )
